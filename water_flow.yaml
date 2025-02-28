@@ -1,0 +1,42 @@
+esphome:
+  name: water_flow
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: "your_ssid"
+  password: "your_password"
+
+logger:
+
+api:
+
+ota:
+
+web_server:
+  port: 80
+
+sensor:
+  - platform: pulse_counter
+    pin: D5
+    name: "Ground Well Water Flow Rate"
+    update_interval: 60s
+    filters:
+      - multiply: 0.1515  # 1/6.6 to convert Hz to L/min
+    unit_of_measurement: "L/min"
+    total:
+      name: "Ground Well Total Water Usage"
+      unit_of_measurement: "L"
+      accuracy_decimals: 2
+  
+  - platform: pulse_counter
+    pin: D6
+    name: "PDAM Water Flow Rate"
+    update_interval: 60s
+    filters:
+      - multiply: 0.1515  # 1/6.6 to convert Hz to L/min
+    unit_of_measurement: "L/min"
+    total:
+      name: "PDAM Total Water Usage"
+      unit_of_measurement: "L"
+      accuracy_decimals: 2
