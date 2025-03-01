@@ -1,6 +1,6 @@
 # ESPHome Water Flow Monitoring
 
-This project uses ESPHome to monitor water flow from two sources: a ground well and PDAM. The configuration is designed for an ESP8266-based board (esp01_1m) with two pulse counter sensors.
+This project uses ESPHome to monitor water flow from two sources: a ground well and PDAM. The configuration is designed for an ESP8266-based board (esp01_1m) with two pulse meter sensors.
 
 ## Configuration
 
@@ -16,10 +16,14 @@ Replace `your_ssid` and `your_password` with your WiFi credentials.
   - **Pin:** D5
   - **Unit:** L/min
   - **Total Usage:** L
+  - **Update Interval:** 1s (Reports every second when flow is detected)
+  - **Timeout:** 10s (Stops reporting if no pulses are detected for 10 seconds)
 - **PDAM Water Flow Rate**
   - **Pin:** D6
   - **Unit:** L/min
   - **Total Usage:** L
+  - **Update Interval:** 1s (Reports every second when flow is detected)
+  - **Timeout:** 10s (Stops reporting if no pulses are detected for 10 seconds)
 
 ### Web Server
 - **Port:** 80
