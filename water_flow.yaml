@@ -20,6 +20,7 @@ sensor:
   - platform: pulse_meter
     pin: D5
     name: "Ground Well Water Flow Rate"
+    id: well_flow_rate
     unit_of_measurement: "L/min"
     icon: "mdi:water"
     filters:
@@ -29,11 +30,16 @@ sensor:
       unit_of_measurement: "L"
       accuracy_decimals: 2
     timeout: 10s
-    update_interval: 1s
+    on_value:
+      then:
+        - binary_sensor.template.publish:
+            id: well_flow_status
+            state: ON
   
   - platform: pulse_meter
     pin: D6
     name: "PDAM Water Flow Rate"
+    id: pdam_flow_rate
     unit_of_measurement: "L/min"
     icon: "mdi:water"
     filters:
@@ -43,4 +49,31 @@ sensor:
       unit_of_measurement: "L"
       accuracy_decimals: 2
     timeout: 10s
-    update_interval: 1s
+    on_value:
+      then:
+        - binary_sensor.template.publish:
+            id: pdam_flow_status
+            state: ON
+
+binary_sensor:
+  - platform: template
+    name: "Well Flow Status"
+    id: well_flow_status
+    device_class: running
+    lambda: |-
+      if (id(well_flow_rate).state > 0) {
+        return true;
+      } else {
+        return false;
+      }
+
+  - platform: template
+    name: "PDAM Flow Status"
+    id: pdam_flow_status
+    device_class: running
+    lambda: |-
+      if (id(pdam_flow_rate).state > 0) {
+        return true;
+      } else {
+        return false;
+      }
